@@ -1,0 +1,2 @@
+My progress - learn python the hard way
+just finished ex 16. Now onto ex 17 
