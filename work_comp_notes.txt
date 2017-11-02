@@ -1,0 +1,90 @@
+TO do
+1) add below to anki
+2) See if you can import the matplot viz functionality directly - http://pandas.pydata.org/pandas-docs/stable/visualization.html
+3) HW 4 lab, HW 3 lab
+
+
+Questions
+- does groupby create
+
+Anki
+- make sure you have map function
+
+- Type: Python
+print all the column titles in a dataframe?
+print df.columns
+
+df.columnname.value_counts() # returns a list with each unique value and its count in the dataframe next to it
+
+df.shape vs df.size   ??? not sure
+
+.plot function
+
+sodaMeans.plot(yerr=sodaErrs,title="Soda price over time") #5
+yerr = other dataset allows you to overlay a second timeseries over the original dataset
+
+sodaMeans.plot(title="Soda price over time, prettier")
+sns.mpl.pyplot.fill_between(x=sodaMeans.index, y1=sodaMeans-sodaErrs, y2=sodaMeans+sodaErrs, color='g', alpha=0.7)
+sns.mpl.pyplot.ylabel("Cost Per Standard Unit, USD")
+.pyplot.fill_between fills in with a color between 2 points...good to show shading in  a plot
+
+#unstacking and index - making a groupby df print nicely
+What we have to do is make the individual countries columns in the aggregate dataset.
+This process of taking an outer index in a dataset and turning it into a column is called unstacking a dataset.
+To do this, call the unstack() function from the aggregate and pass in the level of the unstack (by default, the level is the most inner index, which is not what we want here):
+
+HOw do you plot all of the different timeseries in their own minigraph?
+subplot parameter of plot
+unstackedByCountryMeans.plot(yerr=unstackedByCountryErrs, title="Per-Country Daily Soda Prices, Fixed", subplots=True)
+
+How do you tell a plot how to layout all the subplots
+layout parameter
+unstackedByCountryMeans.plot(yerr=unstackedByCountryErrs,
+                                  title="Per-Country Daily Soda Prices, Fixed",
+                                  subplots=True,figsize=(12,6),layout=(2, 4))
+
+How do you make all the subplots have the same axis sizes?
+sharey parameter
+ax = unstackedByCountryMeans.plot(yerr=unstackedByCountryErrs,
+                                  title="Per-Country Daily Soda Prices, Fixed",
+                                  subplots=True,figsize=(12,6),layout=(2, 4),sharey=True)
+
+When do you have to pass parameter names to a function?
+* If you pass them in the order they are specified in the documentation, you don't have to name the parameters
+* If you don't pass them in order, you have to name the parameter you're trying to pass a value to. To find out the names of parameters, just look at the function's documentation.
+
+How do you generate a rolling mean on a timeseries dataset?
+tenDayRollingSodaMean = sodaMeans.rolling(window = 7,min_periods=4).mean()
+
+What does it mean to  resample time series data?
+changing the date frequency of the timeseries data. So from daily to weekly data
+
+How do you resample data?
+weeklyDownsampledMeans = sodaMeans.resample(rule = 'W').mean()
+print(sodaMeans.head())
+print(weeklyDownsampledMeans.head())
+
+Is it more likely that when reampling data you will downsample or upsample?
+Downsample, take an average of a more frequent datapoint and convert to a larger unit of time. So convert weekly to monthly average data
+
+How do you create a histogram chart with 20 bins?
+use .hist() on the column you want
+sodaPrices["Conv_Price"].hist(bins=20)
+
+How do you add a title to a plot?
+sodaPrices["Conv_Price"].hist(bins=20)
+sns.mpl.pyplot.title("All Soda Prices")
+Add it below the function
+
+How do you create a stacked histogram?
+use .groupby() first
+stackedHistogram = sodaPrices["Conv_Price"].groupby(sodaPrices["Country"]).hist(bins=20)
+
+How do you save a table to a csv file?
+.to_csv()
+sodaMeans.to_csv("yourFileName", header=True,index=True,sep=",")
+
+How do you save a plot?
+sns.mpl.pyplot.savefig("myFig.png")
+or specify a path
+plt.savefig("/path/to/where/i/want/to/save/this/myFig.png")`
